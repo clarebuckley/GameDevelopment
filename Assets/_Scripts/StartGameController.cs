@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class StartGameController : MonoBehaviour
 {
-    private AudioSource audioData;
-    public Animator animator;
+    private AudioSource musicData;
+    [SerializeField] private AudioSource zombieSound;
+    [SerializeField] Animator animController;
+    private bool triggered = false;
+
+    private void Start()
+    {
+       
+    }
 
     public void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("Player"))
+        animController = GetComponent<Animator>();
+        if (collider.CompareTag("Player") && !triggered)
         {
-            audioData = GetComponent<AudioSource>();
-            audioData.Play();
-            animator.SetBool("gameStarted", true) ;
+            zombieSound.Play();
+            
+            musicData = GetComponent<AudioSource>();
+            musicData.PlayDelayed(zombieSound.clip.length);
+            triggered = true;
         }
 
     }

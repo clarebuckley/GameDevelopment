@@ -1,21 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class PlayerInteractionController : MonoBehaviour
 {
-    public Image image;
+    private Image image;
     public Sprite unselected;
     public Sprite selected;
-    public GraphicRaycaster graphicRaycaster;
+    private Text scoreText;
+
 
     void Update()
     {
+        GameObject canvas = GameObject.FindGameObjectWithTag("DontDestroyOnLoad");
+        UI_Controller uiController = GameObject.FindObjectOfType<UI_Controller>();
+        image = uiController.getCrosshairImage();
+        if (SceneManager.GetActiveScene().name != "Cottage")
+        {
+            scoreText = uiController.getScore().GetComponent<Text>();
+        }
         PhysicsRaycasts();
     }
-
-
 
     private void PhysicsRaycasts()
     {
@@ -49,7 +54,21 @@ public class PlayerInteractionController : MonoBehaviour
                 }
                 if (hit.transform.tag == "Zombie")
                 {
-
+                    if (hit.transform.GetComponent<AgentController>().state != AgentController.AgentState.Dead)
+                    {
+                        GameStatsController.Score += 10;
+                    }
+                   
+                    scoreText.text = GameStatsController.Score.ToString();
+                    hit.transform.GetComponent<AgentController>().OnInteraction();
+                }
+                if (hit.transform.GetComponent<WeaponController>())
+                {
+                    hit.transform.GetComponent<WeaponController>().OnInteraction();
+                }
+                if (hit.transform.GetComponent<GrandpaController>())
+                {
+                    hit.transform.GetComponent<GrandpaController>().OnInteraction();
                 }
             }
         }

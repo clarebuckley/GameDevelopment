@@ -23,6 +23,7 @@ public class MainMenuController : MonoBehaviour
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Main_Menu");
     }
+    
 
 
     IEnumerator EnterCottageCoroutine()

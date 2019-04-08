@@ -5,9 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class DoorController : MonoBehaviour, InteractiveObjectBase
 {
-  
+    public GameObject player;
+
+   
+
     public void OnInteraction()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Level 1");
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Level_1");
     }
 }
+
+
+
+
+
